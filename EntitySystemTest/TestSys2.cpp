@@ -40,18 +40,18 @@ void TestSys2::injectUpdate(const qint64 &par_timeSinceLastUpdate)
 
         ComClientConnection *comConnection;
         comConnection = entity->getComponent<ComClientConnection>();
-        if(comConnection == NULL)
-            qDebug()<<"TestSys2"<<"ComConnection is NULL";
+        if(comConnection == 0)
+            qDebug()<<"TestSys2"<<"ComConnection is 0";
 
         HealthCom *healthCom;
         healthCom = entity->getComponent<HealthCom>();
-        if(healthCom != NULL)
-            qDebug()<<"TestSys2"<<"HealthCom not NULL";
+        if(healthCom != 0)
+            qDebug()<<"TestSys2"<<"HealthCom not 0";
 
         PositionCom *positionCom;
         positionCom = entity->getComponent<PositionCom>();
-        if(positionCom == NULL)
-            qDebug()<<"TestSys2"<<"PositionCom is NULL";
+        if(positionCom == 0)
+            qDebug()<<"TestSys2"<<"PositionCom is 0";
 
         HealthCom *newHealthCom = new HealthCom();
         entity->addComponent(newHealthCom);

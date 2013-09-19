@@ -60,7 +60,7 @@ public:
             return static_cast<T*>(m_components.value(xComponentType));
             //return ((T*)mComponents.value(xComponentType));
         else
-            return NULL;
+            return 0;
     }
 
     QList<IComponent*> getComponents() const;
