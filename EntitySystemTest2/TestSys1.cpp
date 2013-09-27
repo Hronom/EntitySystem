@@ -12,7 +12,7 @@ TestSys1::TestSys1()
 {
 }
 
-void TestSys1::addedToEntitySystem()
+void TestSys1::initialize()
 {
 
 }

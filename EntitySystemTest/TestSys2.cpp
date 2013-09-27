@@ -15,7 +15,7 @@ TestSys2::TestSys2()
 {
 }
 
-void TestSys2::addedToEntitySystem()
+void TestSys2::initialize()
 {
     BitMask bitMask;
     bitMask.add<ComClientConnection>();

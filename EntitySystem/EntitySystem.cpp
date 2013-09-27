@@ -78,6 +78,17 @@ Entitys EntitySystem::createEntitysGroup(const BitMask &par_mask)
     return node;
 }
 
+void EntitySystem::initialize()
+{
+    QList<LogicSystem*>::Iterator iter;
+    iter = m_logicSystemsOrdered.begin();
+    while(iter != m_logicSystemsOrdered.end())
+    {
+        (*iter)->initialize();
+        ++iter;
+    }
+}
+
 QList<LogicSystem*> EntitySystem::getAllLogicSystems()
 {
     return m_logicSystemsOrdered;
@@ -93,7 +104,11 @@ void EntitySystem::injectUpdate(const float &par_timeSinceLastUpdate)
     {
         if(!m_stopUpdate)
         {
-            (*iter)->injectUpdate(par_timeSinceLastUpdate);
+            LogicSystem *logicSystem;
+            logicSystem = (*iter);
+            if(logicSystem->isEnabled())
+                logicSystem->injectUpdate(par_timeSinceLastUpdate);
+
             ++iter;
         }
         else

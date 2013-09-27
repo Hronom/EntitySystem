@@ -9,7 +9,7 @@ class TestSys1: public LogicSystem
 public:
     TestSys1();
 
-    void addedToEntitySystem();
+    void initialize();
     void injectUpdate(const qint64 &par_timeSinceLastUpdate);
 };
 

@@ -13,7 +13,7 @@ TestSys3::TestSys3()
 {
 }
 
-void TestSys3::addedToEntitySystem()
+void TestSys3::initialize()
 {
     BitMask bitMask;
     bitMask.add<ComClientConnection>();
