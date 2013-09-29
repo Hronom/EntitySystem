@@ -1,7 +1,7 @@
 #ifndef BITMASK_H
 #define BITMASK_H
 
-#include <QMetaType>
+#include "TypeInfoUtils.h"
 
 class BitMask
 {
@@ -16,7 +16,7 @@ public:
     template<typename T>
     void add()
     {
-        int componentType = qMetaTypeId<T>();
+        int componentType = TypeInfoUtils::getTypeID<T>();
         add(componentType);
     }
     void add(const int &par_componentType);
@@ -24,7 +24,7 @@ public:
     template<typename T>
     void remove()
     {
-        int componentType = qMetaTypeId<T>();
+        int componentType = TypeInfoUtils::getTypeID<T>();
         remove(componentType);
     }
     void remove(const int &par_componentType);

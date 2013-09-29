@@ -1,8 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "IComponent.h"
 #include "BitMask.h"
+#include "TypeInfoUtils.h"
 
 #include <QHash>
 #include <QString>
@@ -16,7 +16,7 @@ private:
     BitMask m_bitMask;
 
     // component type - component
-    QHash<quint32, IComponent*> m_components;
+    QHash<quint32, void*> m_components;
 
 public:
     Entity(QString par_name, QHash<int, QList<Entity*>*> *par_nodes);
@@ -32,7 +32,7 @@ public:
         int entityMaskOld;
         entityMaskOld = m_bitMask.getMask();
 
-        int componentType = qMetaTypeId<T>();
+        int componentType = TypeInfoUtils::getTypeID<T>();
         m_bitMask.add(componentType);
         m_components.insert(componentType, par_component);
 
@@ -45,7 +45,7 @@ public:
     template<typename T>
     bool hasComponent() const
     {
-        int componentType = qMetaTypeId<T>();
+        int componentType = TypeInfoUtils::getTypeID<T>();
         if(m_components.contains(componentType))
             return true;
         else
@@ -55,7 +55,7 @@ public:
     template<typename T>
     T* getComponent() const
     {
-        int xComponentType = qMetaTypeId<T>();
+        int xComponentType = TypeInfoUtils::getTypeID<T>();
         if(m_components.contains(xComponentType))
             return static_cast<T*>(m_components.value(xComponentType));
             //return ((T*)mComponents.value(xComponentType));
@@ -63,15 +63,13 @@ public:
             return 0;
     }
 
-    QList<IComponent*> getComponents() const;
-
     template<typename T>
     void removeComponent()
     {
         int entityMaskOld;
         entityMaskOld = m_bitMask.getMask();
 
-        int componentType = qMetaTypeId<T>();
+        int componentType = TypeInfoUtils::getTypeID<T>();
         m_bitMask.remove(componentType);
         m_components.remove(componentType);
 
@@ -87,7 +85,7 @@ public:
         int entityMaskOld;
         entityMaskOld = m_bitMask.getMask();
 
-        int componentType = qMetaTypeId<T>();
+        int componentType = TypeInfoUtils::getTypeID<T>();
         m_bitMask.remove(componentType);
 
         T* component;

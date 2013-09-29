@@ -2,8 +2,8 @@
 #define ENTITYSYSTEM_H
 
 #include "Entity.h"
-#include "IComponent.h"
 #include "LogicSystem.h"
+#include "TypeInfoUtils.h"
 
 #include <QString>
 #include <QHash>
@@ -27,11 +27,6 @@ private:
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////
-    // Entry name - entry
-    QHash<QString, void*> m_boardEntrys;
-    ////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////
     // Logic system type id - logic system
     QHash<int, LogicSystem*> m_logicSystems; // For fast lookup
     QList<LogicSystem*> m_logicSystemsOrdered; // To iterate in insert order
@@ -51,48 +46,6 @@ public:
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////
-    // BlackBoard methods
-    template<typename T>
-    void addEntry(const QString &par_name, T *par_entry)
-    {
-        m_boardEntrys.insert(par_name, par_entry);
-    }
-
-    template<typename T>
-    bool hasEntry(const QString &par_name) const
-    {
-        if(m_boardEntrys.contains(par_name))
-            return true;
-        else
-            return false;
-    }
-
-    template<typename T>
-    T* getEntry(const QString &par_name) const
-    {
-        if(m_boardEntrys.contains(par_name))
-            return static_cast<T*>(m_boardEntrys.value(par_name));
-        else
-            return 0;
-    }
-
-    template<typename T>
-    void removeEntry(const QString &par_name)
-    {
-        m_boardEntrys.remove(par_name);
-    }
-
-    template<typename T>
-    T* takeEntry(const QString &par_name)
-    {
-        T* component;
-        component = static_cast<T*>(m_boardEntrys.take(par_name));
-
-        return component;
-    }
-    ////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////
     // LogicSystems methods
     void initialize();
 
@@ -100,7 +53,7 @@ public:
     void setLogicSystem(T *par_logicSystem)
     {
         int logicSystemType;
-        logicSystemType = qMetaTypeId<T>();
+        logicSystemType = TypeInfoUtils::getTypeID<T>();
 
         par_logicSystem->setEntitySystem(this);
 
@@ -114,7 +67,7 @@ public:
     T* getLogicSystem()
     {
         int logicSystemType;
-        logicSystemType = qMetaTypeId<T>();
+        logicSystemType = TypeInfoUtils::getTypeID<T>();
 
         T* logicSystem;
         logicSystem = static_cast<T*>(m_logicSystems.value(logicSystemType));
@@ -128,7 +81,7 @@ public:
     void removeLogicSystem()
     {
         int logicSystemType;
-        logicSystemType = qMetaTypeId<T>();
+        logicSystemType = TypeInfoUtils::getTypeID<T>();
 
         LogicSystem *logicSystem;
         logicSystem = m_logicSystems.take(logicSystemType);
@@ -143,7 +96,7 @@ public:
     T* takeLogicSystem()
     {
         int logicSystemType;
-        logicSystemType = qMetaTypeId<T>();
+        logicSystemType = TypeInfoUtils::getTypeID<T>();
 
         LogicSystem *logicSystem;
         logicSystem = m_logicSystems.take(logicSystemType);

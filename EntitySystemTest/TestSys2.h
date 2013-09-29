@@ -16,6 +16,4 @@ public:
     void injectUpdate(const qint64 &par_timeSinceLastUpdate);
 };
 
-Q_DECLARE_METATYPE(TestSys2)
-
 #endif

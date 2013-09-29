@@ -36,11 +36,6 @@ int Entity::getMask() const
     return m_bitMask.getMask();
 }
 
-QList<IComponent*> Entity::getComponents() const
-{
-    return m_components.values();
-}
-
 void Entity::addEntityToNodes(const int &par_entityMaskOld, const int &par_entityMaskNew)
 {
     QHash<int, QList<Entity*>*>::Iterator iter;

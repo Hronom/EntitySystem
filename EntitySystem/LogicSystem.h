@@ -2,7 +2,6 @@
 #define LOGICSYSTEM_H
 
 #include <QtGlobal>
-#include <QMetaType>
 
 class EntitySystem;
 

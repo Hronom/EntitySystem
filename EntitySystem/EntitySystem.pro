@@ -10,12 +10,13 @@ SOURCES += \
     BitMask.cpp \
     EntitySystem.cpp \
     LogicSystem.cpp \
-    EntitysIterator.cpp
+    EntitysIterator.cpp \
+    TypeInfoUtils.cpp
 
 HEADERS += \
     Entity.h \
-    IComponent.h \
     BitMask.h \
     EntitySystem.h \
     LogicSystem.h \
-    EntitysIterator.h
+    EntitysIterator.h \
+    TypeInfoUtils.h
