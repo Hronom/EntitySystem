@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(QString par_name, QHash<int, QList<Entity*>*> *par_nodes)
+Entity::Entity(QString par_name, QHash<int, QList<Entity *> *> *par_nodes)
 {
     m_name = par_name;
     m_nodes = par_nodes;
@@ -65,7 +65,7 @@ void Entity::removeEntityFromNodes(const int &par_entityMaskOld, const int &par_
         {
             QList<Entity*> *node;
             node = iter.value();
-            node->removeAll(this);
+            node->removeOne(this);
         }
 
         ++iter;

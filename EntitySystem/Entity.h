@@ -5,6 +5,7 @@
 #include "TypeInfoUtils.h"
 
 #include <QHash>
+#include <QList>
 #include <QString>
 
 class Entity

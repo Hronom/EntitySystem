@@ -85,7 +85,7 @@ public:
 
         LogicSystem *logicSystem;
         logicSystem = m_logicSystems.take(logicSystemType);
-        m_logicSystemsOrdered.removeAll(logicSystem);
+        m_logicSystemsOrdered.removeOne(logicSystem);
 
         logicSystem->disable();
 
