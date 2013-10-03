@@ -1,6 +1,8 @@
 #include "TestSys3.h"
 
-#include "EntitysIterator.h"
+#include "World.h"
+#include "Entity.h"
+#include "BagIterator.h"
 
 #include "HealthCom.h"
 #include "PositionCom.h"
@@ -11,20 +13,23 @@ TestSys3::TestSys3()
 {
 }
 
-void TestSys3::initialize()
+BitMask TestSys3::getInterest()
 {
     BitMask bitMask;
     bitMask.add<PositionCom>();
+    return bitMask;
+}
 
-    m_node = getEntitySystem()->createEntitysGroup(bitMask);
+void TestSys3::initialize()
+{
 }
 
 void TestSys3::injectUpdate(const qint64 &par_timeSinceLastUpdate)
 {
     Q_UNUSED(par_timeSinceLastUpdate);
 
-    EntitysIterator iter;
-    iter.setContainer(m_node);
+    BagIterator<Entity*> iter;
+    iter.setContainer(&m_entitys);
     while(iter.hasNext())
     {
         Entity *entity;

@@ -2,8 +2,9 @@
 
 #include <QTimerEvent>
 
-#include "EntitysIterator.h"
-
+#include "World.h"
+#include "Entity.h"
+#include "BagIterator.h"
 #include "ComClientConnection.h"
 #include "HealthCom.h"
 #include "PositionCom.h"
@@ -26,61 +27,61 @@ void MainApp::timerEvent(QTimerEvent *par_event)
 {
     killTimer(par_event->timerId());
 
-    EntitySystem *entitySystem;
-    entitySystem = new EntitySystem();
+    World *world;
+    world = new World();
 
     {
         {
-            Entity *entity;
-            entity = entitySystem->getEntity("Entity1");
-
-            ComClientConnection *comConnection = new ComClientConnection();
-            entity->addComponent(comConnection);
-
-            HealthCom *healthCom = new HealthCom();
-            entity->addComponent(healthCom);
-
-            PositionCom *positionCom = new PositionCom();
-            entity->addComponent(positionCom);
-        }
-        {
-            Entity *entity;
-            entity = entitySystem->getEntity("Entity2");
-
-            ComClientConnection *comConnection = new ComClientConnection();
-            entity->addComponent(comConnection);
-
-            HealthCom *healthCom = new HealthCom();
-            entity->addComponent(healthCom);
-
-            PositionCom *positionCom = new PositionCom();
-            entity->addComponent(positionCom);
-        }
-        {
             TestSys1 *testSys1;
             testSys1 = new TestSys1();
-            entitySystem->setLogicSystem(testSys1);
-            testSys1->enable();
+            world->setSystem(testSys1);
         }
         {
             TestSys2 *testSys2;
             testSys2 = new TestSys2();
-            entitySystem->setLogicSystem(testSys2);
-            testSys2->enable();
+            world->setSystem(testSys2);
         }
         {
             TestSys3 *testSys3;
             testSys3 = new TestSys3();
-            entitySystem->setLogicSystem(testSys3);
-            testSys3->enable();
+            world->setSystem(testSys3);
         }
     }
 
-    entitySystem->initialize();
+    {
+        {
+            Entity *entity;
+            entity = world->createEntity();
+
+            ComClientConnection *comConnection = new ComClientConnection();
+            entity->addComponent(comConnection);
+
+            HealthCom *healthCom = new HealthCom();
+            entity->addComponent(healthCom);
+
+            PositionCom *positionCom = new PositionCom();
+            entity->addComponent(positionCom);
+        }
+        {
+            Entity *entity;
+            entity = world->createEntity();
+
+            ComClientConnection *comConnection = new ComClientConnection();
+            entity->addComponent(comConnection);
+
+            HealthCom *healthCom = new HealthCom();
+            entity->addComponent(healthCom);
+
+            PositionCom *positionCom = new PositionCom();
+            entity->addComponent(positionCom);
+        }
+    }
+
+    world->initializeAll();
 
     qDebug()<<"Begin test";
-    entitySystem->injectUpdate(0);
+    world->injectUpdate(0);
     qDebug()<<"End test";
 
-    delete entitySystem;
+    delete world;
 }

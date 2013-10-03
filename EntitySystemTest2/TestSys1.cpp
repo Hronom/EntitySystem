@@ -1,6 +1,7 @@
 #include "TestSys1.h"
 
-#include "EntitysIterator.h"
+#include "World.h"
+#include "BagIterator.h"
 #include "BitMask.h"
 
 #include "HealthCom.h"
@@ -12,26 +13,27 @@ TestSys1::TestSys1()
 {
 }
 
+BitMask TestSys1::getInterest()
+{
+    BitMask bitMask;
+    return bitMask;
+}
+
 void TestSys1::initialize()
 {
-
 }
 
 void TestSys1::injectUpdate(const qint64 &par_timeSinceLastUpdate)
 {
     Q_UNUSED(par_timeSinceLastUpdate);
 
-    for(int i=0; i<1000; i++)
+    BagIterator<Entity*> iter;
+    iter.setContainer(&m_entitys);
+    while(iter.hasNext())
     {
         Entity *entity;
-        entity = getEntitySystem()->getEntity(QString::number(i));
+        entity = iter.next();
 
-        HealthCom *healthCom;
-        healthCom = new HealthCom();
-        entity->addComponent(healthCom);
-
-        PositionCom *positionCom;
-        positionCom = new PositionCom();
-        entity->addComponent(positionCom);
+        Q_UNUSED(entity);
     }
 }

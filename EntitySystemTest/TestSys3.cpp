@@ -1,6 +1,8 @@
 #include "TestSys3.h"
 
-#include "EntitysIterator.h"
+#include "World.h"
+#include "Entity.h"
+#include "BagIterator.h"
 #include "BitMask.h"
 
 #include "ComClientConnection.h"
@@ -13,25 +15,28 @@ TestSys3::TestSys3()
 {
 }
 
-void TestSys3::initialize()
+BitMask TestSys3::getInterest()
 {
     BitMask bitMask;
     bitMask.add<ComClientConnection>();
     bitMask.add<HealthCom>();
     bitMask.add<PositionCom>();
+    return bitMask;
+}
 
-    m_node = getEntitySystem()->createEntitysGroup(bitMask);
+void TestSys3::initialize()
+{
 }
 
 void TestSys3::injectUpdate(const qint64 &par_timeSinceLastUpdate)
 {
     Q_UNUSED(par_timeSinceLastUpdate);
 
-    if(m_node->count() != 2)
+    if(m_entitys.count() != 2)
         qDebug()<<"TestSys3"<<"Wrong count of entitys.";
 
-    EntitysIterator iter;
-    iter.setContainer(m_node);
+    BagIterator<Entity*> iter;
+    iter.setContainer(&m_entitys);
     while(iter.hasNext())
     {
         Entity *entity;

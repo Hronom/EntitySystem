@@ -2,7 +2,9 @@
 
 #include <QTimerEvent>
 
-#include "EntitysIterator.h"
+#include "World.h"
+#include "Entity.h"
+#include "BagIterator.h"
 
 #include "HealthCom.h"
 #include "PositionCom.h"
@@ -28,68 +30,63 @@ void MainApp::timerEvent(QTimerEvent *par_event)
 {
     killTimer(par_event->timerId());
 
-    EntitySystem *entitySystem;
-    entitySystem = new EntitySystem();
+    World *world;
+    world = new World();
+    world->setManagersStartBagSize(999999);
+    world->setSystemsStartBagSize(999999);
 
     {
         {
-            Entity *entity;
-            entity = entitySystem->getEntity("Entity1");
-
-            HealthCom *healthCom = new HealthCom();
-            entity->addComponent(healthCom);
-
-            PositionCom *positionCom = new PositionCom();
-            entity->addComponent(positionCom);
-        }
-        {
-            Entity *entity;
-            entity = entitySystem->getEntity("Entity2");
-
-            HealthCom *healthCom = new HealthCom();
-            entity->addComponent(healthCom);
-
-            PositionCom *positionCom = new PositionCom();
-            entity->addComponent(positionCom);
-        }
-        {
             TestSys1 *testSys1;
             testSys1 = new TestSys1();
-            entitySystem->setLogicSystem(testSys1);
-            testSys1->enable();
+            world->setSystem(testSys1);
         }
-
-        for(int i=0; i<1000; ++i)
         {
-            {
-                TestSys2 *testSys2;
-                testSys2 = new TestSys2();
-                entitySystem->setLogicSystem(testSys2);
-                testSys2->enable();
-            }
-            {
-                TestSys3 *testSys3;
-                testSys3 = new TestSys3();
-                entitySystem->setLogicSystem(testSys3);
-                testSys3->enable();
-            }
+            TestSys2 *testSys2;
+            testSys2 = new TestSys2();
+            world->setSystem(testSys2);
+        }
+        {
+            TestSys3 *testSys3;
+            testSys3 = new TestSys3();
+            world->setSystem(testSys3);
         }
     }
 
-    entitySystem->initialize();
+
 
     QElapsedTimer timer;
-    timer.start();
+
+
+
+    qDebug()<<"Create entitys begin...";
+    timer.restart();
+    {
+        for(int i=0; i<999999; ++i)
+        {
+            Entity *entity;
+            entity = world->createEntity();
+
+            HealthCom *healthCom = new HealthCom();
+            entity->addComponent(healthCom);
+
+            PositionCom *positionCom = new PositionCom();
+            entity->addComponent(positionCom);
+        }
+    }
+    qDebug()<<"Create time:"<<timer.elapsed()<<"milliseconds";
+
+    world->initializeAll();
 
     for(int i = 1; i < 4; ++i)
     {
         qDebug()<<"Begin update...";
 
         timer.restart();
-        entitySystem->injectUpdate(0);
+        world->injectUpdate(0);
 
         qDebug()<<"Update time:"<<timer.elapsed()<<"milliseconds";
     }
 
-    delete entitySystem;
+    delete world;
 }
