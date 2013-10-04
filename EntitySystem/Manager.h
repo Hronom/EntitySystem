@@ -15,9 +15,8 @@ public:
     virtual ~Manager() {}
 
     void setWorld(World *par_world);
-    World* getWorld();
 
-    virtual void setStartBagSize(int par_size) {}
+    virtual void setStartBagSize(int par_size) { Q_UNUSED(par_size) }
 
     virtual void initialize() {}
 };

@@ -1,9 +1,6 @@
 #include "TypeInfoUtils.h"
 
-int TypeInfoUtils::m_nextTypeID = 0;
-
-int TypeInfoUtils::getNextTypeID()
-{
-    return m_nextTypeID++;
-}
-
+int TypeInfoUtils::m_nextManagerTypeID = 0;
+int TypeInfoUtils::m_nextSystemTypeID = 0;
+int TypeInfoUtils::m_nextComponentTypeID = 0;
+int TypeInfoUtils::m_nextOtherTypeID = 0;

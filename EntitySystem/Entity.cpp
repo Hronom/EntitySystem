@@ -14,3 +14,8 @@ int Entity::getID()
 {
     return m_id;
 }
+
+int Entity::getComponentsMask()
+{
+    return m_componentsMask.getMask();
+}

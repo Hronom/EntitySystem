@@ -1,12 +1,46 @@
-#include <QCoreApplication>
+#include "TypeInfoUtils.h"
 
-#include "MainApp.h"
+#include <QtGlobal>
+#include <QDebug>
+
+class ManagerX
+{
+public:
+};
+
+class ManagerY
+{
+public:
+};
+
+class SystemX
+{
+public:
+};
+
+class SystemY
+{
+public:
+};
+
+class ComponentX
+{
+public:
+};
+
+class ComponentY
+{
+public:
+};
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication app(argc, argv);
+    Q_UNUSED(argc);
+    Q_UNUSED(argv);
 
-    MainApp mainApp;
+    qDebug()<<TypeInfoUtils::getManagerTypeID<ManagerX>()<<TypeInfoUtils::getManagerTypeID<ManagerY>();
+    qDebug()<<TypeInfoUtils::getSystemTypeID<SystemX>()<<TypeInfoUtils::getSystemTypeID<SystemY>();
+    qDebug()<<TypeInfoUtils::getComponentTypeID<ComponentX>()<<TypeInfoUtils::getComponentTypeID<ComponentY>();
 
-    return app.exec();
+    return 0;
 }

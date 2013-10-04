@@ -1,15 +1,25 @@
 QT += core
 QT -= gui
 
-TARGET = EntitySystemTest
+TARGET = EntitySystemTest3
 CONFIG += console c++11
 CONFIG -= app_bundle
 
 TEMPLATE = app
 
-HEADERS +=
+HEADERS += \
+    MainApp.h \
+    SysTest1.h \
+    SysTest2.h \
+    SysTest3.h \
+    ComHealth.h \
+    ComPosition.h
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    MainApp.cpp \
+    SysTest1.cpp \
+    SysTest2.cpp \
+    SysTest3.cpp
 
 # EntitySystem
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../EntitySystem/release/ -lEntitySystem

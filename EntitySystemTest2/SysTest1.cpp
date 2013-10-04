@@ -1,34 +1,27 @@
-#include "TestSys1.h"
+#include "SysTest1.h"
 
 #include "World.h"
 #include "Entity.h"
 #include "BagIterator.h"
-#include "BitMask.h"
 
 #include "ComClientConnection.h"
-#include "HealthCom.h"
-#include "PositionCom.h"
+#include "ComHealth.h"
+#include "ComPosition.h"
 
 #include <QDebug>
 
-TestSys1::TestSys1()
+SysTest1::SysTest1()
+{
+    EntitySystem::addComponentType<ComClientConnection>();
+    EntitySystem::addComponentType<ComHealth>();
+    EntitySystem::addComponentType<ComPosition>();
+}
+
+void SysTest1::initialize()
 {
 }
 
-BitMask TestSys1::getInterest()
-{
-    BitMask bitMask;
-    bitMask.add<ComClientConnection>();
-    bitMask.add<HealthCom>();
-    bitMask.add<PositionCom>();
-    return bitMask;
-}
-
-void TestSys1::initialize()
-{
-}
-
-void TestSys1::injectUpdate(const qint64 &par_timeSinceLastUpdate)
+void SysTest1::injectUpdate(const qint64 &par_timeSinceLastUpdate)
 {
     Q_UNUSED(par_timeSinceLastUpdate);
 
@@ -47,16 +40,16 @@ void TestSys1::injectUpdate(const qint64 &par_timeSinceLastUpdate)
         if(comConnection == 0)
             qDebug()<<"TestSys1"<<"ComConnection is 0";
 
-        HealthCom *healthCom;
-        healthCom = entity->getComponent<HealthCom>();
-        if(healthCom == 0)
+        ComHealth *comHealth;
+        comHealth = entity->getComponent<ComHealth>();
+        if(comHealth == 0)
             qDebug()<<"TestSys1"<<"HealthCom is 0";
 
-        PositionCom *positionCom;
-        positionCom = entity->getComponent<PositionCom>();
-        if(positionCom == 0)
+        ComPosition *comPosition;
+        comPosition = entity->getComponent<ComPosition>();
+        if(comPosition == 0)
             qDebug()<<"TestSys1"<<"PositionCom is 0";
 
-        entity->removeComponent<HealthCom>();
+        entity->removeComponent<ComHealth>();
     }
 }

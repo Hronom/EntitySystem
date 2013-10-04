@@ -26,13 +26,13 @@ private:
 
     ////////////////////////////////////////////////////////////////////////////
     // Managers type id - manager
-    QHash<int, Manager*> m_managers; // For fast lookup by type
+    Bag<Manager*> m_managers; // For fast lookup by type
     QList<Manager*> m_managersOrdered; // To iterate in insert order
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////
     // Entity Systems type id - logic system
-    QHash<int, EntitySystem*> m_systems; // For fast lookup by type
+    Bag<EntitySystem*> m_systems; // For fast lookup by type
     QList<EntitySystem*> m_systemsOrdered; // To iterate in insert order
     ////////////////////////////////////////////////////////////////////////////
 
@@ -48,7 +48,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////
     // Entitys methods
     Entity* createEntity();
-    void updateEntity(Entity *par_entity, const int &par_entityMaskOld, const int &par_entityMaskNew);
+    void updateEntity(Entity *par_entity);
     void removeEntity(Entity *par_entity);
     ////////////////////////////////////////////////////////////////////////////
 
@@ -60,13 +60,13 @@ public:
     void setSystem(T *par_system, bool par_passive = false)
     {
         int systemType;
-        systemType = TypeInfoUtils::getTypeID<T>();
+        systemType = TypeInfoUtils::getSystemTypeID<T>();
 
         par_system->setWorld(this);
         par_system->setStartBagSize(m_systemsStartBagSize);
         par_system->setPassive(par_passive);
 
-        m_systems.insert(systemType, par_system);
+        m_systems.set(systemType, par_system);
         m_systemsOrdered.append(par_system);
 
         stopUpdate();
@@ -76,10 +76,10 @@ public:
     T* getSystem()
     {
         int systemType;
-        systemType = TypeInfoUtils::getTypeID<T>();
+        systemType = TypeInfoUtils::getSystemTypeID<T>();
 
         T* system;
-        system = static_cast<T*>(m_systems.value(systemType));
+        system = static_cast<T*>(m_systems.get(systemType));
 
         return system;
     }
@@ -90,7 +90,7 @@ public:
     void removeSystem()
     {
         int systemType;
-        systemType = TypeInfoUtils::getTypeID<T>();
+        systemType = TypeInfoUtils::getSystemTypeID<T>();
 
         EntitySystem *system;
         system = m_systems.take(systemType);
@@ -103,7 +103,7 @@ public:
     T* takeSystem()
     {
         int systemType;
-        systemType = TypeInfoUtils::getTypeID<T>();
+        systemType = TypeInfoUtils::getSystemTypeID<T>();
 
         EntitySystem *system;
         system = m_systems.take(systemType);

@@ -5,4 +5,5 @@ CONFIG += ordered
 SUBDIRS += \
     EntitySystem \
     EntitySystemTest \
-    EntitySystemTest2
+    EntitySystemTest2 \
+    EntitySystemTest3

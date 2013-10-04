@@ -3,12 +3,10 @@
 
 #include "EntitySystem.h"
 
-class TestSys1: public EntitySystem
+class SysTest1: public EntitySystem
 {
 public:
-    TestSys1();
-
-    BitMask getInterest();
+    SysTest1();
 
     void initialize();
     void injectUpdate(const qint64 &par_timeSinceLastUpdate);

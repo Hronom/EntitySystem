@@ -11,8 +11,3 @@ void Manager::setWorld(World *par_world)
 {
     m_world = par_world;
 }
-
-World* Manager::getWorld()
-{
-    return m_world;
-}

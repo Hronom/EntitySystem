@@ -30,7 +30,24 @@ bool EntitySystem::isPassive()
 
 bool EntitySystem::checkProcessing()
 {
-    return !m_passive;
+    return ! m_passive;
+}
+
+void EntitySystem::check(Entity *par_entity)
+{
+    int entityMask;
+    entityMask = par_entity->getComponentsMask();
+
+    if(m_entitys.contains(par_entity->getID()))
+    {
+        if(BitMask::contains(m_entitysMask.getMask(), entityMask) == false)
+            this->deleted(par_entity);
+    }
+    else
+    {
+        if(BitMask::contains(m_entitysMask.getMask(), entityMask))
+            this->added(par_entity);
+    }
 }
 
 void EntitySystem::added(Entity *par_entity)

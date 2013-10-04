@@ -1,7 +1,7 @@
 #ifndef POSITIONCOM_H
 #define POSITIONCOM_H
 
-class PositionCom
+class ComPosition
 {
 public:
     bool changed;

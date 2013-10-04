@@ -10,23 +10,10 @@ private:
     int m_mask;
 
 public:
-    BitMask();
+    explicit BitMask();
     ~BitMask();
 
-    template<typename T>
-    void add()
-    {
-        int componentType = TypeInfoUtils::getTypeID<T>();
-        add(componentType);
-    }
     void add(const int &par_componentType);
-
-    template<typename T>
-    void remove()
-    {
-        int componentType = TypeInfoUtils::getTypeID<T>();
-        remove(componentType);
-    }
     void remove(const int &par_componentType);
 
     int getMask() const;

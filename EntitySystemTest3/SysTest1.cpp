@@ -1,29 +1,22 @@
-#include "TestSys1.h"
+#include "SysTest1.h"
 
 #include "World.h"
 #include "BagIterator.h"
-#include "BitMask.h"
 
-#include "HealthCom.h"
-#include "PositionCom.h"
+#include "ComHealth.h"
+#include "ComPosition.h"
 
 #include <QDebug>
 
-TestSys1::TestSys1()
+SysTest1::SysTest1()
 {
 }
 
-BitMask TestSys1::getInterest()
-{
-    BitMask bitMask;
-    return bitMask;
-}
-
-void TestSys1::initialize()
+void SysTest1::initialize()
 {
 }
 
-void TestSys1::injectUpdate(const qint64 &par_timeSinceLastUpdate)
+void SysTest1::injectUpdate(const qint64 &par_timeSinceLastUpdate)
 {
     Q_UNUSED(par_timeSinceLastUpdate);
 

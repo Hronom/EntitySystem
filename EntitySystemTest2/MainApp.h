@@ -15,4 +15,4 @@ public:
 
 };
 
-#endif // MAINAPP_H
+#endif

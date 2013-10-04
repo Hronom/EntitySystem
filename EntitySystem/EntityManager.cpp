@@ -5,9 +5,8 @@
 
 #include <QDebug>
 
-EntityManager::EntityManager(World *par_world)
+EntityManager::EntityManager()
 {
-    m_world = par_world;
 }
 
 EntityManager::~EntityManager()
@@ -48,16 +47,6 @@ Entity* EntityManager::getEntity(const int &par_id)
     }
     else
         return 0;
-}
-
-void EntityManager::added(Entity *par_entity)
-{
-
-}
-
-void EntityManager::changed(Entity *par_entity)
-{
-
 }
 
 void EntityManager::deleted(Entity *par_entity)

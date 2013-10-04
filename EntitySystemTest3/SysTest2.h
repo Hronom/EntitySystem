@@ -4,12 +4,10 @@
 #include "EntitySystem.h"
 #include "BagIterator.h"
 
-class TestSys2: public EntitySystem
+class SysTest2: public EntitySystem
 {
 public:
-    TestSys2();
-
-    BitMask getInterest();
+    SysTest2();
 
     void initialize();
     void injectUpdate(const qint64 &par_timeSinceLastUpdate);

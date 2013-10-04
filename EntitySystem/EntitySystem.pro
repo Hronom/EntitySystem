@@ -1,4 +1,4 @@
-QT       -= gui
+QT -= gui
 QT += concurrent
 
 TARGET = EntitySystem
@@ -8,13 +8,13 @@ CONFIG += staticlib c++11
 SOURCES += \
     Entity.cpp \
     BitMask.cpp \
-    TypeInfoUtils.cpp \
     World.cpp \
     Manager.cpp \
     EntitySystem.cpp \
     EntityManager.cpp \
     Bag.cpp \
-    BagIterator.cpp
+    BagIterator.cpp \
+    TypeInfoUtils.cpp
 
 HEADERS += \
     Entity.h \

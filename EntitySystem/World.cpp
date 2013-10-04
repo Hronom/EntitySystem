@@ -6,7 +6,8 @@ World::World()
 {
     m_stopUpdate = false;
 
-    m_entityManager = new EntityManager(this);
+    m_entityManager = new EntityManager();
+    m_entityManager->setWorld(this);
 
     m_managersStartBagSize = 0;
     m_systemsStartBagSize = 0;
@@ -33,7 +34,7 @@ Entity* World::createEntity()
     return m_entityManager->createEntity();
 }
 
-void World::updateEntity(Entity *par_entity, const int &par_entityMaskOld, const int &par_entityMaskNew)
+void World::updateEntity(Entity *par_entity)
 {
     QList<EntitySystem*>::Iterator iter;
     iter = m_systemsOrdered.begin();
@@ -42,14 +43,7 @@ void World::updateEntity(Entity *par_entity, const int &par_entityMaskOld, const
         EntitySystem *entitySystem;
         entitySystem = (*iter);
 
-        int mask;
-        mask = entitySystem->getInterest().getMask();
-
-        if(!BitMask::contains(mask, par_entityMaskOld) && BitMask::contains(mask, par_entityMaskNew))
-            entitySystem->added(par_entity);
-
-        if(BitMask::contains(mask, par_entityMaskOld) && ! BitMask::contains(mask, par_entityMaskNew))
-            entitySystem->deleted(par_entity);
+        entitySystem->check(par_entity);
 
         ++iter;
     }

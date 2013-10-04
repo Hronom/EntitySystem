@@ -14,8 +14,6 @@ class Entity;
 class EntityManager: public Manager
 {
 private:
-    World *m_world;
-
     ////////////////////////////////////////////////////////////////////////////
     // Entitys storages
     QList<Entity*> m_entitys;
@@ -24,7 +22,7 @@ private:
     QQueue<Entity*> m_freeEntitys;
 
 public:
-    EntityManager(World *par_world);
+    EntityManager();
     ~EntityManager();
 
     void setStartBagSize(int par_size);
@@ -34,8 +32,6 @@ public:
     Entity* createEntity();
     Entity* getEntity(const int &par_id);
 
-    void added(Entity *par_entity);
-    void changed(Entity *par_entity);
     void deleted(Entity *par_entity);
     ////////////////////////////////////////////////////////////////////////////
 };

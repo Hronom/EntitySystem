@@ -27,26 +27,22 @@ public:
 
     ////////////////////////////////////////////////////////////////////////////
     // Components methods
+    int getComponentsMask();
+
     template<typename T>
     void addComponent(T *par_component)
     {
-        int entityMaskOld;
-        entityMaskOld = m_componentsMask.getMask();
-
-        int componentType = TypeInfoUtils::getTypeID<T>();
+        int componentType = TypeInfoUtils::getComponentTypeID<T>();
         m_componentsMask.add(componentType);
         m_components.set(componentType, par_component);
 
-        int entityMaskNew;
-        entityMaskNew = m_componentsMask.getMask();
-
-        m_world->updateEntity(this, entityMaskOld, entityMaskNew);
+        m_world->updateEntity(this);
     }
 
     template<typename T>
     bool hasComponent() const
     {
-        int componentType = TypeInfoUtils::getTypeID<T>();
+        int componentType = TypeInfoUtils::getComponentTypeID<T>();
         if(m_components.contains(componentType))
             return true;
         else
@@ -56,7 +52,7 @@ public:
     template<typename T>
     T* getComponent() const
     {
-        int componentType = TypeInfoUtils::getTypeID<T>();
+        int componentType = TypeInfoUtils::getComponentTypeID<T>();
         if(m_components.contains(componentType))
             return static_cast<T*>(m_components.get(componentType));
         else
@@ -66,35 +62,23 @@ public:
     template<typename T>
     void removeComponent()
     {
-        int entityMaskOld;
-        entityMaskOld = m_componentsMask.getMask();
-
-        int componentType = TypeInfoUtils::getTypeID<T>();
+        int componentType = TypeInfoUtils::getComponentTypeID<T>();
         m_componentsMask.remove(componentType);
         m_components.remove(componentType);
 
-        int entityMaskNew;
-        entityMaskNew = m_componentsMask.getMask();
-
-        m_world->updateEntity(this, entityMaskOld, entityMaskNew);
+        m_world->updateEntity(this);
     }
 
     template<typename T>
     T* takeComponent()
     {
-        int entityMaskOld;
-        entityMaskOld = m_componentsMask.getMask();
-
-        int componentType = TypeInfoUtils::getTypeID<T>();
+        int componentType = TypeInfoUtils::getComponentTypeID<T>();
         m_componentsMask.remove(componentType);
 
         T* component;
         component = static_cast<T*>(m_components.take(componentType));
 
-        int entityMaskNew;
-        entityMaskNew = m_componentsMask.getMask();
-
-        m_world->updateEntity(this, entityMaskOld, entityMaskNew);
+        m_world->updateEntity(this);
 
         return component;
     }

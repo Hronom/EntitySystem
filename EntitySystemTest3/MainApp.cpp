@@ -5,13 +5,16 @@
 #include "World.h"
 #include "Entity.h"
 #include "BagIterator.h"
-#include "ComClientConnection.h"
+
 #include "ComHealth.h"
 #include "ComPosition.h"
 
 #include "SysTest1.h"
 #include "SysTest2.h"
 #include "SysTest3.h"
+
+#include <QElapsedTimer>
+#include <QDebug>
 
 MainApp::MainApp(QObject *par_parent): QObject(par_parent)
 {
@@ -29,6 +32,8 @@ void MainApp::timerEvent(QTimerEvent *par_event)
 
     World *world;
     world = new World();
+    world->setManagersStartBagSize(999999);
+    world->setSystemsStartBagSize(999999);
 
     {
         {
@@ -48,26 +53,19 @@ void MainApp::timerEvent(QTimerEvent *par_event)
         }
     }
 
+
+
+    QElapsedTimer timer;
+
+
+
+    qDebug()<<"Create entitys begin...";
+    timer.restart();
     {
+        for(int i=0; i<999999; ++i)
         {
             Entity *entity;
             entity = world->createEntity();
-
-            ComClientConnection *comConnection = new ComClientConnection();
-            entity->addComponent(comConnection);
-
-            ComHealth *comHealth = new ComHealth();
-            entity->addComponent(comHealth);
-
-            ComPosition *comPosition = new ComPosition();
-            entity->addComponent(comPosition);
-        }
-        {
-            Entity *entity;
-            entity = world->createEntity();
-
-            ComClientConnection *comConnection = new ComClientConnection();
-            entity->addComponent(comConnection);
 
             ComHealth *comHealth = new ComHealth();
             entity->addComponent(comHealth);
@@ -76,12 +74,19 @@ void MainApp::timerEvent(QTimerEvent *par_event)
             entity->addComponent(comPosition);
         }
     }
+    qDebug()<<"Create time:"<<timer.elapsed()<<"milliseconds";
 
     world->initializeAll();
 
-    qDebug()<<"Begin test";
-    world->injectUpdate(0);
-    qDebug()<<"End test";
+    for(int i = 1; i < 4; ++i)
+    {
+        qDebug()<<"Begin update...";
+
+        timer.restart();
+        world->injectUpdate(0);
+
+        qDebug()<<"Update time:"<<timer.elapsed()<<"milliseconds";
+    }
 
     delete world;
 }

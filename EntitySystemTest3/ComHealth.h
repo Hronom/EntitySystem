@@ -1,7 +1,7 @@
 #ifndef HEALTHCOM_H
 #define HEALTHCOM_H
 
-struct HealthCom
+struct ComHealth
 {
 public:
     int healthMax;

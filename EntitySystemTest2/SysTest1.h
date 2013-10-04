@@ -1,15 +1,13 @@
-#ifndef TESTSYS1_H
-#define TESTSYS1_H
+#ifndef SYSTEST1_H
+#define SYSTEST1_H
 
 #include "EntitySystem.h"
 #include "BagIterator.h"
 
-class TestSys1: public EntitySystem
+class SysTest1: public EntitySystem
 {
 public:
-    TestSys1();
-
-    BitMask getInterest();
+    SysTest1();
 
     void initialize();
     void injectUpdate(const qint64 &par_timeSinceLastUpdate);

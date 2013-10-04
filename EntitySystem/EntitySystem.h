@@ -12,6 +12,7 @@ class World;
 class EntitySystem: public EntityObserver
 {
 private:
+    BitMask m_entitysMask;
     bool m_passive;
 
 protected:
@@ -19,12 +20,20 @@ protected:
     Bag<Entity*> m_entitys;
 
 public:
-    EntitySystem();
+    explicit EntitySystem();
     virtual ~EntitySystem() {}
 
+protected:
+    template <typename T>
+    void addComponentType()
+    {
+        int componentType = TypeInfoUtils::getComponentTypeID<T>();
+        m_entitysMask.add(componentType);
+    }
+
+public:
     void setWorld(World *par_world);
     void setStartBagSize(int par_size);
-    virtual BitMask getInterest() = 0;
 
     virtual void initialize() {}
 
@@ -34,6 +43,9 @@ public:
 
     virtual void injectUpdate(const qint64 &par_timeSinceLastUpdate) = 0;
 
+    virtual void check(Entity *par_entity);
+
+protected:
     virtual void added(Entity *par_entity);
     virtual void changed(Entity *par_entity);
     virtual void deleted(Entity *par_entity);
