@@ -7,7 +7,7 @@ World::World()
     m_stopUpdate = false;
 
     m_entityManager = new EntityManager();
-    m_entityManager->setWorld(this);
+    setManager(m_entityManager);
 
     m_managersStartBagSize = 0;
     m_systemsStartBagSize = 0;
@@ -36,22 +36,68 @@ Entity* World::createEntity()
 
 void World::updateEntity(Entity *par_entity)
 {
-    QList<EntitySystem*>::Iterator iter;
-    iter = m_systemsOrdered.begin();
-    while(iter != m_systemsOrdered.end())
+    // Update entity in managers
     {
-        EntitySystem *entitySystem;
-        entitySystem = (*iter);
+        QList<Manager*>::Iterator iter;
+        iter = m_managersOrdered.begin();
+        while(iter != m_managersOrdered.end())
+        {
+            Manager *manager;
+            manager = (*iter);
 
-        entitySystem->check(par_entity);
+            manager->changed(par_entity);
 
-        ++iter;
+            ++iter;
+        }
+    }
+
+    // Update entity in systems
+    {
+        QList<EntitySystem*>::Iterator iter;
+        iter = m_systemsOrdered.begin();
+        while(iter != m_systemsOrdered.end())
+        {
+            EntitySystem *entitySystem;
+            entitySystem = (*iter);
+
+            entitySystem->changed(par_entity);
+
+            ++iter;
+        }
     }
 }
 
 void World::removeEntity(Entity *par_entity)
 {
-    m_entityManager->deleted(par_entity);
+    // Delete entity in managers
+    {
+        QList<Manager*>::Iterator iter;
+        iter = m_managersOrdered.begin();
+        while(iter != m_managersOrdered.end())
+        {
+            Manager *manager;
+            manager = (*iter);
+
+            manager->deleted(par_entity);
+
+            ++iter;
+        }
+    }
+
+    // Delete entity in systems
+    {
+        QList<EntitySystem*>::Iterator iter;
+        iter = m_systemsOrdered.begin();
+        while(iter != m_systemsOrdered.end())
+        {
+            EntitySystem *entitySystem;
+            entitySystem = (*iter);
+
+            entitySystem->deleted(par_entity);
+
+            ++iter;
+        }
+    }
 }
 
 void World::initializeAll()
@@ -82,7 +128,7 @@ void World::injectUpdate(const float &par_timeSinceLastUpdate)
         {
             EntitySystem *system;
             system = (*iter);
-            if(system->checkProcessing())
+            if(!system->isPassive())
                 system->injectUpdate(par_timeSinceLastUpdate);
 
             ++iter;

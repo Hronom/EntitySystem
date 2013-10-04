@@ -16,8 +16,6 @@ public:
 
     void setWorld(World *par_world);
 
-    virtual void setStartBagSize(int par_size) { Q_UNUSED(par_size) }
-
     virtual void initialize() {}
 };
 

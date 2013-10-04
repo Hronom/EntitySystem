@@ -13,7 +13,7 @@ void EntitySystem::setWorld(World *par_world)
     m_world = par_world;
 }
 
-void EntitySystem::setStartBagSize(int par_size)
+void EntitySystem::reserveEntitysBag(int par_size)
 {
     m_entitys.reserve(par_size);
 }
@@ -28,9 +28,31 @@ bool EntitySystem::isPassive()
     return m_passive;
 }
 
-bool EntitySystem::checkProcessing()
+void EntitySystem::added(Entity *par_entity)
 {
-    return ! m_passive;
+    check(par_entity);
+}
+
+void EntitySystem::changed(Entity *par_entity)
+{
+    check(par_entity);
+}
+
+void EntitySystem::deleted(Entity *par_entity)
+{
+    if(m_entitys.contains(par_entity->getID()))
+        removeFromSystem(par_entity);
+}
+
+void EntitySystem::disabled(Entity *par_entity)
+{
+    if(m_entitys.contains(par_entity->getID()))
+        removeFromSystem(par_entity);
+}
+
+void EntitySystem::enabled(Entity *par_entity)
+{
+    check(par_entity);
 }
 
 void EntitySystem::check(Entity *par_entity)
@@ -40,28 +62,27 @@ void EntitySystem::check(Entity *par_entity)
 
     if(m_entitys.contains(par_entity->getID()))
     {
+        // Delete if needed
         if(BitMask::contains(m_entitysMask.getMask(), entityMask) == false)
-            this->deleted(par_entity);
+            removeFromSystem(par_entity);
     }
     else
     {
+        // Insert if needed
         if(BitMask::contains(m_entitysMask.getMask(), entityMask))
-            this->added(par_entity);
+            insertToSystem(par_entity);
     }
 }
 
-void EntitySystem::added(Entity *par_entity)
+void EntitySystem::insertToSystem(Entity *par_entity)
 {
     m_entitys.set(par_entity->getID(), par_entity);
+    inserted(par_entity);
 }
 
-void EntitySystem::changed(Entity *par_entity)
-{
-    Q_UNUSED(par_entity)
-    // TODO ???
-}
-
-void EntitySystem::deleted(Entity *par_entity)
+void EntitySystem::removeFromSystem(Entity *par_entity)
 {
     m_entitys.remove(par_entity->getID());
+    removed(par_entity);
 }
+

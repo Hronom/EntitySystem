@@ -37,7 +37,7 @@ private:
     ////////////////////////////////////////////////////////////////////////////
 
 public:
-    World();
+    explicit World();
     virtual ~World();
     ////////////////////////////////////////////////////////////////////////////
     // World properties methods
@@ -53,6 +53,66 @@ public:
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////
+    // Manager methods
+    template<typename T>
+    void setManager(T *par_manager)
+    {
+        int managerType;
+        managerType = TypeInfoUtils::getManagerTypeID<T>();
+
+        par_manager->setWorld(this);
+
+        m_managers.set(managerType, par_manager);
+        m_managersOrdered.append(par_manager);
+
+        stopUpdate();
+    }
+
+    template<typename T>
+    T* getManager()
+    {
+        int managerType;
+        managerType = TypeInfoUtils::getManagerTypeID<T>();
+
+        T* manager;
+        manager = static_cast<T*>(m_managers.get(managerType));
+
+        return manager;
+    }
+
+    template<typename T>
+    void removeManager()
+    {
+        int managerType;
+        managerType = TypeInfoUtils::getManagerTypeID<T>();
+
+        Manager *manager;
+        manager = m_managers.take(managerType);
+        m_managersOrdered.removeOne(manager);
+
+        stopUpdate();
+    }
+
+    template<typename T>
+    T* takeManager()
+    {
+        int managerType;
+        managerType = TypeInfoUtils::getManagerTypeID<T>();
+
+        Manager *manager;
+        manager = m_managers.take(managerType);
+        m_managersOrdered.removeOne(manager);
+
+        T *managerConverted;
+        managerConverted = static_cast<T*>(manager);
+
+        stopUpdate();
+
+        return managerConverted;
+    }
+    ////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////
     // EntitySystem methods
     void initializeAll();
 
@@ -63,7 +123,7 @@ public:
         systemType = TypeInfoUtils::getSystemTypeID<T>();
 
         par_system->setWorld(this);
-        par_system->setStartBagSize(m_systemsStartBagSize);
+        par_system->reserveEntitysBag(m_systemsStartBagSize);
         par_system->setPassive(par_passive);
 
         m_systems.set(systemType, par_system);

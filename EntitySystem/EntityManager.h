@@ -22,7 +22,7 @@ private:
     QQueue<Entity*> m_freeEntitys;
 
 public:
-    EntityManager();
+    explicit EntityManager();
     ~EntityManager();
 
     void setStartBagSize(int par_size);

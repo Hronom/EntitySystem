@@ -23,6 +23,22 @@ public:
     explicit EntitySystem();
     virtual ~EntitySystem() {}
 
+    void setWorld(World *par_world);
+    void reserveEntitysBag(int par_size);
+
+    void setPassive(bool par_passive);
+    bool isPassive();
+
+    virtual void initialize() {}
+
+    virtual void injectUpdate(const qint64 &par_timeSinceLastUpdate) = 0;
+
+    void added(Entity *par_entity);
+    void changed(Entity *par_entity);
+    void deleted(Entity *par_entity);
+    void disabled(Entity *par_entity);
+    void enabled(Entity *par_entity);
+
 protected:
     template <typename T>
     void addComponentType()
@@ -31,24 +47,16 @@ protected:
         m_entitysMask.add(componentType);
     }
 
-public:
-    void setWorld(World *par_world);
-    void setStartBagSize(int par_size);
+    // Called if the system has received a entity it is interested in, e.g. created or a component was added to it.
+    virtual void inserted(Entity *par_entity) { Q_UNUSED(par_entity) }
 
-    virtual void initialize() {}
+    // Called if a entity was removed from this system, e.g. deleted or had one of it's components removed.
+    virtual void removed(Entity *par_entity) { Q_UNUSED(par_entity) }
 
-    void setPassive(bool par_passive);
-    bool isPassive();
-    virtual bool checkProcessing();
-
-    virtual void injectUpdate(const qint64 &par_timeSinceLastUpdate) = 0;
-
-    virtual void check(Entity *par_entity);
-
-protected:
-    virtual void added(Entity *par_entity);
-    virtual void changed(Entity *par_entity);
-    virtual void deleted(Entity *par_entity);
+private:
+    void check(Entity *par_entity);
+    void insertToSystem(Entity *par_entity);
+    void removeFromSystem(Entity *par_entity);
 };
 
 #endif
