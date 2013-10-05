@@ -3,6 +3,9 @@
 #include "World.h"
 #include "Entity.h"
 
+#include <QtGlobal>
+#include <QDebug>
+
 EntitySystem::EntitySystem()
 {
     m_passive = false;
@@ -55,18 +58,28 @@ void EntitySystem::enabled(Entity *par_entity)
     check(par_entity);
 }
 
+void EntitySystem::inserted(Entity *par_entity)
+{
+    Q_UNUSED(par_entity)
+}
+
+void EntitySystem::removed(Entity *par_entity)
+{
+    Q_UNUSED(par_entity)
+}
+
 void EntitySystem::check(Entity *par_entity)
 {
     if(m_entitys.contains(par_entity->getID()))
     {
         // Delete if needed
-        if(BitSet::contains(m_entitysMask, par_entity->getComponentsMask()) == false)
+        if(BitSet::contains(m_entitysMask, par_entity->m_componentsMask) == false)
             removeFromSystem(par_entity);
     }
     else
     {
         // Insert if needed
-        if(BitSet::contains(m_entitysMask, par_entity->getComponentsMask()))
+        if(BitSet::contains(m_entitysMask, par_entity->m_componentsMask) == true)
             insertToSystem(par_entity);
     }
 }

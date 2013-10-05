@@ -1,7 +1,9 @@
 #ifndef COMPOSITION_H
 #define COMPOSITION_H
 
-struct ComPosition
+#include "Component.h"
+
+struct ComPosition: public Component
 {
 public:
     bool changed;

@@ -1,7 +1,9 @@
 #ifndef COMHEALTH_H
 #define COMHEALTH_H
 
-struct ComHealth
+#include "Component.h"
+
+struct ComHealth: public Component
 {
 public:
     int healthMax;

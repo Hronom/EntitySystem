@@ -1,22 +1,21 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "EntitySystem.h"
 #include "TypeInfoUtils.h"
-#include "EntityManager.h"
+#include "Manager.h"
+#include "EntitySystem.h"
 
-#include <QString>
+#include <QList>
 #include <QHash>
-#include <QDebug>
 
+class EntityManager;
+class ComponentManager;
 class Entity;
 
 class World
 {
 private:
     bool m_stopUpdate;
-
-    EntityManager *m_entityManager;
 
     ////////////////////////////////////////////////////////////////////////////
     // World properties
@@ -25,6 +24,10 @@ private:
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////
+    // Managers
+    EntityManager *m_entityManager;
+    ComponentManager *m_componentManager;
+
     // Managers type id - manager
     Bag<Manager*> m_managers; // For fast lookup by type
     QList<Manager*> m_managersOrdered; // To iterate in insert order
@@ -54,6 +57,9 @@ public:
 
     ////////////////////////////////////////////////////////////////////////////
     // Manager methods
+    EntityManager* getEntityManager();
+    ComponentManager* getComponentManager();
+
     template<typename T>
     void setManager(T *par_manager)
     {
@@ -167,7 +173,7 @@ public:
 
         EntitySystem *system;
         system = m_systems.take(systemType);
-        m_systemsOrdered.removeAll(system);
+        m_systemsOrdered.removeOne(system);
 
         T *systemConverted;
         systemConverted = static_cast<T*>(system);

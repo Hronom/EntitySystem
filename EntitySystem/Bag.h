@@ -22,7 +22,7 @@ public:
         m_count = 0;
     }
 
-    void reserve(int par_reserve)
+    void inline reserve(int par_reserve)
     {
         m_elements.reserve(par_reserve);
         for(int i = m_elements.size(); i < par_reserve; ++i)
@@ -36,8 +36,7 @@ public:
 
     void set(const int &par_index, T par_elem)
     {
-        for(int i = m_elements.size(); i <= par_index; ++i)
-            m_elements.append(0);
+        reserve(par_index + 1);
 
         m_elements.replace(par_index, par_elem);
         m_count++;

@@ -3,12 +3,9 @@
 
 #include "Manager.h"
 
-#include <QString>
 #include <QList>
-#include <QHash>
 #include <QQueue>
 
-class World;
 class Entity;
 
 class EntityManager: public Manager

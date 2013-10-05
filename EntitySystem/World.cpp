@@ -1,6 +1,11 @@
 #include "World.h"
 
+#include "EntitySystem.h"
+#include "EntityManager.h"
+#include "ComponentManager.h"
 #include "Entity.h"
+
+#include <QDebug>
 
 World::World()
 {
@@ -8,6 +13,9 @@ World::World()
 
     m_entityManager = new EntityManager();
     setManager(m_entityManager);
+
+    m_componentManager = new ComponentManager();
+    setManager(m_componentManager);
 
     m_managersStartBagSize = 0;
     m_systemsStartBagSize = 0;
@@ -98,6 +106,16 @@ void World::removeEntity(Entity *par_entity)
             ++iter;
         }
     }
+}
+
+EntityManager* World::getEntityManager()
+{
+    return m_entityManager;
+}
+
+ComponentManager* World::getComponentManager()
+{
+    return m_componentManager;
 }
 
 void World::initializeAll()

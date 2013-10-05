@@ -1,7 +1,9 @@
 #ifndef COMCLIENTCONNECTION_H
 #define COMCLIENTCONNECTION_H
 
-struct ComClientConnection
+#include "Component.h"
+
+struct ComClientConnection: public Component
 {
 public:
     bool connected;

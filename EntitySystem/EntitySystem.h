@@ -5,9 +5,8 @@
 #include "BitSet.h"
 #include "Bag.h"
 
-#include <QtGlobal>
-
 class World;
+class Entity;
 
 class EntitySystem: public EntityObserver
 {
@@ -48,10 +47,10 @@ protected:
     }
 
     // Called if the system has received a entity it is interested in, e.g. created or a component was added to it.
-    virtual void inserted(Entity *par_entity) { Q_UNUSED(par_entity) }
+    virtual void inserted(Entity *par_entity);
 
     // Called if a entity was removed from this system, e.g. deleted or had one of it's components removed.
-    virtual void removed(Entity *par_entity) { Q_UNUSED(par_entity) }
+    virtual void removed(Entity *par_entity);
 
 private:
     void check(Entity *par_entity);

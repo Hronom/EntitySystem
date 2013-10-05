@@ -1,7 +1,9 @@
 #ifndef POSITIONCOM_H
 #define POSITIONCOM_H
 
-class ComPosition
+#include "Component.h"
+
+class ComPosition: public Component
 {
 public:
     bool changed;

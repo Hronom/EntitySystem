@@ -1,7 +1,5 @@
 #include "MainApp.h"
 
-#include <QTimerEvent>
-
 #include "World.h"
 #include "Entity.h"
 #include "BagIterator.h"
@@ -12,6 +10,9 @@
 #include "SysTest1.h"
 #include "SysTest2.h"
 #include "SysTest3.h"
+
+#include <QTimerEvent>
+#include <QDebug>
 
 MainApp::MainApp(QObject *par_parent): QObject(par_parent)
 {

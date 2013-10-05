@@ -30,7 +30,9 @@ public:
     void clear();
     bool test(const int &par_bitIndex);
 
-    static bool contains(const BitSet &par_nodeMask, const BitSet &par_entityMask);
+    static inline bool contains(const BitSet &par_nodeMask, const BitSet &par_entityMask);
 };
+
+#include "BitSet.inl"
 
 #endif

@@ -7,6 +7,7 @@ CONFIG += staticlib c++11
 
 HEADERS += \
     Entity.h \
+    Entity.inl \
     TypeInfoUtils.h \
     EntityObserver.h \
     World.h \
@@ -15,7 +16,11 @@ HEADERS += \
     EntityManager.h \
     Bag.h \
     BagIterator.h \
-    BitSet.h
+    BitSet.h \
+    BitSet.inl \
+    ComponentManager.h \
+    ComponentManager.inl \
+    Component.h
 
 SOURCES += \
     Entity.cpp \
@@ -26,4 +31,7 @@ SOURCES += \
     Bag.cpp \
     BagIterator.cpp \
     TypeInfoUtils.cpp \
-    BitSet.cpp
+    BitSet.cpp \
+    ComponentManager.cpp \
+    EntityObserver.cpp \
+    Component.cpp
