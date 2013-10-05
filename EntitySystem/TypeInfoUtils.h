@@ -1,6 +1,8 @@
 #ifndef TYPEINFOUTILS_H
 #define TYPEINFOUTILS_H
 
+#include <QtGlobal>
+
 class TypeInfoUtils
 {
 private:

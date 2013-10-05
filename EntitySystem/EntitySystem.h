@@ -2,7 +2,7 @@
 #define ENTITYSYSTEM_H
 
 #include "EntityObserver.h"
-#include "BitMask.h"
+#include "BitSet.h"
 #include "Bag.h"
 
 #include <QtGlobal>
@@ -12,7 +12,7 @@ class World;
 class EntitySystem: public EntityObserver
 {
 private:
-    BitMask m_entitysMask;
+    BitSet m_entitysMask;
     bool m_passive;
 
 protected:
@@ -44,7 +44,7 @@ protected:
     void addComponentType()
     {
         int componentType = TypeInfoUtils::getComponentTypeID<T>();
-        m_entitysMask.add(componentType);
+        m_entitysMask.set(componentType);
     }
 
     // Called if the system has received a entity it is interested in, e.g. created or a component was added to it.

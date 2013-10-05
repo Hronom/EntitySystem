@@ -57,19 +57,16 @@ void EntitySystem::enabled(Entity *par_entity)
 
 void EntitySystem::check(Entity *par_entity)
 {
-    int entityMask;
-    entityMask = par_entity->getComponentsMask();
-
     if(m_entitys.contains(par_entity->getID()))
     {
         // Delete if needed
-        if(BitMask::contains(m_entitysMask.getMask(), entityMask) == false)
+        if(BitSet::contains(m_entitysMask, par_entity->getComponentsMask()) == false)
             removeFromSystem(par_entity);
     }
     else
     {
         // Insert if needed
-        if(BitMask::contains(m_entitysMask.getMask(), entityMask))
+        if(BitSet::contains(m_entitysMask, par_entity->getComponentsMask()))
             insertToSystem(par_entity);
     }
 }

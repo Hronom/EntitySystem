@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "BitMask.h"
+#include "BitSet.h"
 #include "TypeInfoUtils.h"
 #include "Bag.h"
 #include "World.h"
@@ -13,8 +13,8 @@ private:
 
     int m_id;
 
-    BitMask m_componentsMask;
-    BitMask m_systemsMask;
+    BitSet m_componentsMask;
+    BitSet m_systemsMask;
 
     // component type - component
     Bag<void*> m_components;
@@ -27,13 +27,13 @@ public:
 
     ////////////////////////////////////////////////////////////////////////////
     // Components methods
-    int getComponentsMask();
+    BitSet getComponentsMask();
 
     template<typename T>
     void addComponent(T *par_component)
     {
         int componentType = TypeInfoUtils::getComponentTypeID<T>();
-        m_componentsMask.add(componentType);
+        m_componentsMask.set(componentType);
         m_components.set(componentType, par_component);
 
         m_world->updateEntity(this);
@@ -63,7 +63,7 @@ public:
     void removeComponent()
     {
         int componentType = TypeInfoUtils::getComponentTypeID<T>();
-        m_componentsMask.remove(componentType);
+        m_componentsMask.clear(componentType);
         m_components.remove(componentType);
 
         m_world->updateEntity(this);
@@ -73,7 +73,7 @@ public:
     T* takeComponent()
     {
         int componentType = TypeInfoUtils::getComponentTypeID<T>();
-        m_componentsMask.remove(componentType);
+        m_componentsMask.clear(componentType);
 
         T* component;
         component = static_cast<T*>(m_components.take(componentType));

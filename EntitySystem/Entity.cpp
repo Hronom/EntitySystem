@@ -15,7 +15,7 @@ int Entity::getID()
     return m_id;
 }
 
-int Entity::getComponentsMask()
+BitSet Entity::getComponentsMask()
 {
-    return m_componentsMask.getMask();
+    return m_componentsMask;
 }

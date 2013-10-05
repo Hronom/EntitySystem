@@ -1,5 +1,7 @@
 #include "TypeInfoUtils.h"
 
+#include "BitSet.h"
+
 #include <QtGlobal>
 #include <QDebug>
 
@@ -41,6 +43,13 @@ int main(int argc, char *argv[])
     qDebug()<<TypeInfoUtils::getManagerTypeID<ManagerX>()<<TypeInfoUtils::getManagerTypeID<ManagerY>();
     qDebug()<<TypeInfoUtils::getSystemTypeID<SystemX>()<<TypeInfoUtils::getSystemTypeID<SystemY>();
     qDebug()<<TypeInfoUtils::getComponentTypeID<ComponentX>()<<TypeInfoUtils::getComponentTypeID<ComponentY>();
+
+    BitSet bits;
+    bits.set(1);
+    bits.set(62);
+    qDebug()<<bits.test(1)
+            <<bits.test(62)
+            <<bits.test(3);
 
     return 0;
 }
