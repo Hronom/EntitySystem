@@ -33,5 +33,7 @@ void SysTest3::injectUpdate(const qint64 &par_timeSinceLastUpdate)
         comHealth = new ComHealth();
 
         entity->addComponent(comHealth);
+
+        entity->update();
     }
 }

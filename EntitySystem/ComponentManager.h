@@ -31,6 +31,8 @@ public:
 
     template<typename T>
     T* takeComponent(Entity *par_entity);
+
+    void deleted(Entity *par_entity);
 };
 
 #include "ComponentManager.inl"

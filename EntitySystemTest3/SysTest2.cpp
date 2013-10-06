@@ -38,5 +38,7 @@ void SysTest2::injectUpdate(const qint64 &par_timeSinceLastUpdate)
         delete comHealth;
 
         entity->removeComponent<ComHealth>();
+
+        entity->update();
     }
 }

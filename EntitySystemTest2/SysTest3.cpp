@@ -26,7 +26,7 @@ void SysTest3::injectUpdate(const qint64 &par_timeSinceLastUpdate)
     Q_UNUSED(par_timeSinceLastUpdate);
 
     if(m_entitys.count() != 2)
-        qDebug()<<"TestSys3"<<"Wrong count of entitys.";
+        qCritical()<<"TestSys3"<<"Wrong count of entitys.";
 
     BagIterator<Entity*> iter;
     iter.setContainer(&m_entitys);
@@ -38,18 +38,20 @@ void SysTest3::injectUpdate(const qint64 &par_timeSinceLastUpdate)
         ComClientConnection *comConnection;
         comConnection = entity->getComponent<ComClientConnection>();
         if(comConnection == 0)
-            qDebug()<<"TestSys3"<<"ComConnection is 0";
+            qCritical()<<"TestSys3"<<"ComConnection is 0";
 
         ComHealth *comHealth;
         comHealth = entity->getComponent<ComHealth>();
         if(comHealth == 0)
-            qDebug()<<"TestSys3"<<"ComHealth is 0";
+            qCritical()<<"TestSys3"<<"ComHealth is 0";
 
         ComPosition *comPosition;
         comPosition = entity->getComponent<ComPosition>();
         if(comPosition == 0)
-            qDebug()<<"TestSys3"<<"ComPosition is 0";
+            qCritical()<<"TestSys3"<<"ComPosition is 0";
 
         entity->removeComponent<ComHealth>();
+
+        entity->update();
     }
 }

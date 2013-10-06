@@ -26,15 +26,23 @@ public:
     {
         m_bag = par_bag;
         m_currentIndex = 0;
-        m_size = par_bag->count();
+        m_size = par_bag->elementsCount();
     }
 
     bool hasNext()
     {
-        if(m_currentIndex < m_size)
-            return true;
-        else
-            return false;
+        while(m_currentIndex < m_size)
+        {
+            T elem;
+            elem = m_bag->get(m_currentIndex);
+
+            if(elem != 0)
+                return true;
+
+            m_currentIndex++;
+        }
+
+        return false;
     }
 
     T next()

@@ -9,6 +9,8 @@
 
 World::World()
 {
+    qDebug()<<"Creating World";
+
     m_stopUpdate = false;
 
     m_entityManager = new EntityManager();
@@ -24,6 +26,11 @@ World::World()
 World::~World()
 {
     qDebug()<<"Destroying World";
+
+    removeManager<ComponentManager>();
+    delete m_componentManager;
+    removeManager<EntityManager>();
+    delete m_entityManager;
 }
 
 void World::setManagersStartBagSize(int par_size)

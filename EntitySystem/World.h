@@ -7,6 +7,7 @@
 
 #include <QList>
 #include <QHash>
+#include <QQueue>
 
 class EntityManager;
 class ComponentManager;
@@ -53,6 +54,8 @@ public:
     Entity* createEntity();
     void updateEntity(Entity *par_entity);
     void removeEntity(Entity *par_entity);
+
+    void notifyAll();
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////
@@ -129,6 +132,7 @@ public:
         systemType = TypeInfoUtils::getSystemTypeID<T>();
 
         par_system->setWorld(this);
+        par_system->setSystemIndex(systemType);
         par_system->reserveEntitysBag(m_systemsStartBagSize);
         par_system->setPassive(par_passive);
 

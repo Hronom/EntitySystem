@@ -34,6 +34,11 @@ public:
         return m_count;
     }
 
+    int elementsCount()
+    {
+        return m_elements.size();
+    }
+
     void set(const int &par_index, T par_elem)
     {
         reserve(par_index + 1);
@@ -48,6 +53,7 @@ public:
         {
             T elem;
             elem = m_elements.at(par_index);
+
             if(elem != 0)
                 return elem;
             else
@@ -59,10 +65,21 @@ public:
 
     T take(const int &par_index)
     {
-        T elem;
-        elem = m_elements.at(par_index);
-        m_elements.replace(par_index, 0);
-        return elem;
+        if(par_index < m_elements.size())
+        {
+            T elem;
+            elem = m_elements.at(par_index);
+
+            if(elem != 0)
+            {
+                m_elements.replace(par_index, 0);
+                m_count--;
+            }
+
+            return elem;
+        }
+        else
+            return 0;
     }
 
     void remove(const int &par_index)

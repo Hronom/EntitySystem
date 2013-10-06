@@ -14,13 +14,17 @@ HEADERS += \
     ComPosition.h \
     SysTest1.h \
     SysTest2.h \
-    SysTest3.h
+    SysTest3.h \
+    SysTest4.h \
+    SysTest5.h
 
 SOURCES += main.cpp \
     MainApp.cpp \
     SysTest1.cpp \
     SysTest2.cpp \
-    SysTest3.cpp
+    SysTest3.cpp \
+    SysTest4.cpp \
+    SysTest5.cpp
 
 # EntitySystem
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../EntitySystem/release/ -lEntitySystem

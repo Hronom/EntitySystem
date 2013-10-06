@@ -62,7 +62,7 @@ void MainApp::timerEvent(QTimerEvent *par_event)
     qDebug()<<"Create entitys begin...";
     timer.restart();
     {
-        for(int i=0; i<999999; ++i)
+        for(int i = 0; i < 999999; ++i)
         {
             Entity *entity;
             entity = world->createEntity();
@@ -72,6 +72,8 @@ void MainApp::timerEvent(QTimerEvent *par_event)
 
             ComPosition *comPosition = new ComPosition();
             entity->addComponent(comPosition);
+
+            entity->update();
         }
     }
     qDebug()<<"Create time:"<<timer.elapsed()<<"milliseconds";

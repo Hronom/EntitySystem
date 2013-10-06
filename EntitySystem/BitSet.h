@@ -28,7 +28,9 @@ public:
     void set(const int &par_bitIndex);
     void clear(const int &par_bitIndex);
     void clear();
-    bool test(const int &par_bitIndex);
+    bool test(const int &par_bitIndex) const;
+
+    bool isNull() const;
 
     static inline bool contains(const BitSet &par_nodeMask, const BitSet &par_entityMask);
 };

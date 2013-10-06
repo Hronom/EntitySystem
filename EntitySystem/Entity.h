@@ -10,7 +10,9 @@ class ComponentManager;
 
 class Entity
 {
+    friend class World;
     friend class EntitySystem;
+    friend class EntityManager;
     friend class ComponentManager;
 private:
     World *m_world;
@@ -19,13 +21,14 @@ private:
     const int m_id;
 
     BitSet m_componentsMask;
-    BitSet m_systemsMask;
 
 public:
     explicit Entity(World *par_world, int par_id);
     ~Entity();
 
     int getID() const;
+
+    void reset();
 
     ////////////////////////////////////////////////////////////////////////////
     // Components methods
@@ -43,6 +46,9 @@ public:
 
     template<typename T>
     T* takeComponent();
+
+    // This entity has changed, a component added or deleted. So update in world.
+    void update();
     ////////////////////////////////////////////////////////////////////////////
 };
 

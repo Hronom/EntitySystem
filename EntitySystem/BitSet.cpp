@@ -43,7 +43,7 @@ void BitSet::clear()
     m_mask = Q_INT64_C(0);
 }
 
-bool BitSet::test(const int &par_bitIndex)
+bool BitSet::test(const int &par_bitIndex) const
 {
     if(par_bitIndex > -1 && par_bitIndex < 63)
     {
@@ -53,8 +53,16 @@ bool BitSet::test(const int &par_bitIndex)
         else
             return false;
     }
-    else
-        qDebug()<<"bitIndex is longer than max";
+
+    qDebug()<<"bitIndex is longer than max";
 
     return false;
+}
+
+bool BitSet::isNull() const
+{
+    if(m_mask == 0)
+        return true;
+    else
+        return false;
 }

@@ -16,3 +16,13 @@ int Entity::getID() const
 {
     return m_id;
 }
+
+void Entity::reset()
+{
+    m_componentsMask.clear();
+}
+
+void Entity::update()
+{
+    m_world->updateEntity(this);
+}

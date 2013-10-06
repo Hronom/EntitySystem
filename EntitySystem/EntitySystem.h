@@ -16,6 +16,7 @@ private:
 
 protected:
     World *m_world;
+    int m_systemIndex;
     Bag<Entity*> m_entitys;
 
 public:
@@ -23,6 +24,7 @@ public:
     virtual ~EntitySystem() {}
 
     void setWorld(World *par_world);
+    void setSystemIndex(const int &par_type);
     void reserveEntitysBag(int par_size);
 
     void setPassive(bool par_passive);

@@ -7,11 +7,24 @@
 
 EntityManager::EntityManager()
 {
+    qDebug()<<"Creating EntityManager";
 }
 
 EntityManager::~EntityManager()
 {
     qDebug()<<"Destroying EntityManager";
+
+    for(int i = 0; i < m_entitys.count(); ++i)
+    {
+        Entity *entity;
+        entity = m_entitys.take(i);
+
+        if(entity != 0)
+            delete entity;
+    }
+
+    while(m_freeEntitys.isEmpty() == false)
+        delete m_freeEntitys.dequeue();
 }
 
 void EntityManager::setStartBagSize(int par_size)
@@ -26,12 +39,13 @@ Entity* EntityManager::createEntity()
     if(!m_freeEntitys.empty())
     {
         entity = m_freeEntitys.dequeue();
-        m_entitys.replace(entity->getID(), entity);
+        entity->reset();
+        m_entitys.set(entity->m_id, entity);
     }
     else
     {
-        entity = new Entity(m_world, m_entitys.size());
-        m_entitys.append(entity);
+        entity = new Entity(m_world, m_entitys.count());
+        m_entitys.set(entity->m_id, entity);
     }
 
     return entity;
@@ -39,27 +53,14 @@ Entity* EntityManager::createEntity()
 
 Entity* EntityManager::getEntity(const int &par_id)
 {
-    if(par_id < m_entitys.size())
-    {
-        Entity *entity;
-        entity = m_entitys.at(par_id);
-        return entity; // TODO can be returned 0
-    }
-    else
-        return 0;
+    return m_entitys.get(par_id); // TODO can be returned 0
 }
 
 void EntityManager::deleted(Entity *par_entity)
 {
-    int entityID;
-    entityID = par_entity->getID();
+    Entity *entity;
+    entity = m_entitys.take(par_entity->m_id);
 
-    if(entityID < m_entitys.size())
-    {
-        if(m_entitys.at(entityID) != 0)
-        {
-            m_entitys.replace(entityID, 0);
-            m_freeEntitys.enqueue(par_entity);
-        }
-    }
+    if(entity != 0)
+        m_freeEntitys.enqueue(entity);
 }

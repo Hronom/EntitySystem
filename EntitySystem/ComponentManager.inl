@@ -20,8 +20,6 @@ void ComponentManager::addComponent(Entity *par_entity, T *par_component)
     }
 
     components->set(par_entity->m_id, par_component);
-
-    m_world->updateEntity(par_entity);
 }
 
 template<typename T>
@@ -77,8 +75,6 @@ void ComponentManager::removeComponent(Entity *par_entity)
         return;
 
     components->remove(par_entity->m_id);
-
-    m_world->updateEntity(par_entity);
 }
 
 template<typename T>
@@ -102,8 +98,6 @@ T* ComponentManager::takeComponent(Entity *par_entity)
 
     T* componentConverted;
     componentConverted = static_cast<T*>(component);
-
-    m_world->updateEntity(par_entity);
 
     return componentConverted;
 }

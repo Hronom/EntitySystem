@@ -2,8 +2,8 @@
 #define ENTITYMANAGER_H
 
 #include "Manager.h"
+#include "Bag.h"
 
-#include <QList>
 #include <QQueue>
 
 class Entity;
@@ -13,10 +13,9 @@ class EntityManager: public Manager
 private:
     ////////////////////////////////////////////////////////////////////////////
     // Entitys storages
-    QList<Entity*> m_entitys;
-    ////////////////////////////////////////////////////////////////////////////
-
+    Bag<Entity*> m_entitys;
     QQueue<Entity*> m_freeEntitys;
+    ////////////////////////////////////////////////////////////////////////////
 
 public:
     explicit EntityManager();
