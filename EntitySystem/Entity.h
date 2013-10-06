@@ -6,6 +6,8 @@
 #include "BitSet.h"
 #include "Bag.h"
 
+#include <QString>
+
 class ComponentManager;
 
 class Entity
@@ -20,6 +22,8 @@ private:
 
     const int m_id;
 
+    QString m_name;
+
     BitSet m_componentsMask;
 
 public:
@@ -27,6 +31,8 @@ public:
     ~Entity();
 
     int getID() const;
+    void setName(const QString &par_name);
+    QString getName() const;
 
     void reset();
 
