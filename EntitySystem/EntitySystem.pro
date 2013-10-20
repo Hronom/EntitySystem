@@ -20,7 +20,8 @@ HEADERS += \
     BitSet.inl \
     ComponentManager.h \
     ComponentManager.inl \
-    Component.h
+    Component.h \
+    NameManager.h
 
 SOURCES += \
     Entity.cpp \
@@ -34,4 +35,5 @@ SOURCES += \
     BitSet.cpp \
     ComponentManager.cpp \
     EntityObserver.cpp \
-    Component.cpp
+    Component.cpp \
+    NameManager.cpp

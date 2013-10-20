@@ -12,7 +12,7 @@ class EntitySystem: public EntityObserver
 {
 private:
     BitSet m_entitysMask;
-    bool m_passive;
+    bool m_enabled;
 
 protected:
     World *m_world;
@@ -27,10 +27,13 @@ public:
     void setSystemIndex(const int &par_type);
     void reserveEntitysBag(int par_size);
 
-    void setPassive(bool par_passive);
-    bool isPassive();
-
     virtual void initialize() {}
+    void enable();
+    bool isEnabled();
+    void disable();
+
+    virtual void enabled() {}
+    virtual void disabled() {}
 
     virtual void injectUpdate(const qint64 &par_timeSinceLastUpdate) = 0;
 

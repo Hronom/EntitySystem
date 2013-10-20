@@ -3,6 +3,7 @@
 #include "EntitySystem.h"
 #include "EntityManager.h"
 #include "ComponentManager.h"
+#include "NameManager.h"
 #include "Entity.h"
 
 #include <QDebug>
@@ -19,6 +20,9 @@ World::World()
     m_componentManager = new ComponentManager();
     setManager(m_componentManager);
 
+    m_nameManager = new NameManager();
+    setManager(m_nameManager);
+
     m_managersStartBagSize = 0;
     m_systemsStartBagSize = 0;
 }
@@ -27,6 +31,8 @@ World::~World()
 {
     qDebug()<<"Destroying World";
 
+    removeManager<NameManager>();
+    delete m_nameManager;
     removeManager<ComponentManager>();
     delete m_componentManager;
     removeManager<EntityManager>();
@@ -47,6 +53,11 @@ void World::setSystemsStartBagSize(int par_size)
 Entity* World::createEntity()
 {
     return m_entityManager->createEntity();
+}
+
+Entity* World::getEntity(const QString &par_name)
+{
+    return m_nameManager->getEntity(par_name);
 }
 
 void World::updateEntity(Entity *par_entity)
@@ -125,6 +136,11 @@ ComponentManager* World::getComponentManager()
     return m_componentManager;
 }
 
+NameManager* World::getNameManager()
+{
+    return m_nameManager;
+}
+
 void World::initializeAll()
 {
     QList<EntitySystem*>::Iterator iter;
@@ -132,6 +148,28 @@ void World::initializeAll()
     while(iter != m_systemsOrdered.end())
     {
         (*iter)->initialize();
+        ++iter;
+    }
+}
+
+void World::enableAllSystems()
+{
+    QList<EntitySystem*>::Iterator iter;
+    iter = m_systemsOrdered.begin();
+    while(iter != m_systemsOrdered.end())
+    {
+        (*iter)->enable();
+        ++iter;
+    }
+}
+
+void World::disableAllSystems()
+{
+    QList<EntitySystem*>::Iterator iter;
+    iter = m_systemsOrdered.begin();
+    while(iter != m_systemsOrdered.end())
+    {
+        (*iter)->disable();
         ++iter;
     }
 }
@@ -153,7 +191,7 @@ void World::injectUpdate(const float &par_timeSinceLastUpdate)
         {
             EntitySystem *system;
             system = (*iter);
-            if(!system->isPassive())
+            if(system->isEnabled())
                 system->injectUpdate(par_timeSinceLastUpdate);
 
             ++iter;

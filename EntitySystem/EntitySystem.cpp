@@ -8,7 +8,7 @@
 
 EntitySystem::EntitySystem()
 {
-    m_passive = false;
+    m_enabled = false;
 }
 
 void EntitySystem::setWorld(World *par_world)
@@ -26,14 +26,21 @@ void EntitySystem::reserveEntitysBag(int par_size)
     m_entitys.reserve(par_size);
 }
 
-void EntitySystem::setPassive(bool par_passive)
+void EntitySystem::enable()
 {
-    m_passive = par_passive;
+    enabled();
+    m_enabled = true;
 }
 
-bool EntitySystem::isPassive()
+bool EntitySystem::isEnabled()
 {
-    return m_passive;
+    return m_enabled;
+}
+
+void EntitySystem::disable()
+{
+    disabled();
+    m_enabled = false;
 }
 
 void EntitySystem::added(Entity *par_entity)

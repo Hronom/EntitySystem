@@ -11,6 +11,7 @@
 
 class EntityManager;
 class ComponentManager;
+class NameManager;
 class Entity;
 
 class World
@@ -28,6 +29,7 @@ private:
     // Managers
     EntityManager *m_entityManager;
     ComponentManager *m_componentManager;
+    NameManager *m_nameManager;
 
     // Managers type id - manager
     Bag<Manager*> m_managers; // For fast lookup by type
@@ -52,6 +54,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////
     // Entitys methods
     Entity* createEntity();
+    Entity* getEntity(const QString &par_name);
     void updateEntity(Entity *par_entity);
     void removeEntity(Entity *par_entity);
 
@@ -62,6 +65,7 @@ public:
     // Manager methods
     EntityManager* getEntityManager();
     ComponentManager* getComponentManager();
+    NameManager* getNameManager();
 
     template<typename T>
     void setManager(T *par_manager)
@@ -124,9 +128,11 @@ public:
     ////////////////////////////////////////////////////////////////////////////
     // EntitySystem methods
     void initializeAll();
+    void enableAllSystems();
+    void disableAllSystems();
 
     template<typename T>
-    void setSystem(T *par_system, bool par_passive = false)
+    void setSystem(T *par_system)
     {
         int systemType;
         systemType = TypeInfoUtils::getSystemTypeID<T>();
@@ -134,7 +140,6 @@ public:
         par_system->setWorld(this);
         par_system->setSystemIndex(systemType);
         par_system->reserveEntitysBag(m_systemsStartBagSize);
-        par_system->setPassive(par_passive);
 
         m_systems.set(systemType, par_system);
         m_systemsOrdered.append(par_system);

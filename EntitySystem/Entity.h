@@ -9,6 +9,7 @@
 #include <QString>
 
 class ComponentManager;
+class NameManager;
 
 class Entity
 {
@@ -19,10 +20,11 @@ class Entity
 private:
     World *m_world;
     ComponentManager *m_componentManager;
-
-    const int m_id;
+    NameManager *m_nameManager;
 
     QString m_name;
+
+    const int m_id;
 
     BitSet m_componentsMask;
 

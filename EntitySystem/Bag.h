@@ -34,6 +34,14 @@ public:
         return m_count;
     }
 
+    bool isEmpty()
+    {
+        if(m_count > 0)
+            return false;
+        else
+            return true;
+    }
+
     int elementsCount()
     {
         return m_elements.size();
@@ -45,6 +53,20 @@ public:
 
         m_elements.replace(par_index, par_elem);
         m_count++;
+    }
+
+    T first() const
+    {
+        for(int i = 0; i<m_elements.size(); ++i)
+        {
+            T elem;
+            elem = m_elements.at(i);
+
+            if(elem != 0)
+                return elem;
+        }
+
+        return 0;
     }
 
     T get(const int &par_index) const
